@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Обновление таблицы {{table_name}}{% endblock %}</h1>
+
+{% endblock %}
+
+{% block content %}
+
+<form method="post">
+
+    {% for key in keys %}
+        {% if description[loop.index - 1]['Extra']!='auto_increment' %}
+        <label for="{{key}}">{{key}}</label>
+        <input name="{{key}}" id="{{key}}"
+               value="{% if not description[loop.index - 1]['Default']==None %} {{description[loop.index - 1]['Default']}} {% endif %}"
+               {% if description[loop.index - 1]['Null']=="NO" %} required {% endif %}>
+        {% endif %}
+    {% endfor %}
+    <input type="submit" value="Добавить">
+</form>
+
+<table>
+    <tr>
+        {% for key in keys %}
+        <th>
+            {{key}}
+        </th>
+        {% endfor %}
+    </tr>
+    {% for row in table %}
+    <tr>
+        {% for item in row.values() %}
+        <td>
+            {{item}}
+        </td>
+        {% if loop.last %}
+        <td>
+            <form method="post">
+                <button type="submit" name="remove_button" value="{{row[keys[0]]}}">Удалить</button>
+            </form>
+        </td>
+        {% endif %}
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
+

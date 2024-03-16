@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Новая таблица{% endblock %}</h1>
+
+{% endblock %}
+
+{% block content %}
+<form method="post">
+  <label for="name">Название таблицы</label>
+  <input type="text" id="name" name="name" pattern="[a-zA-Z].*" required>
+  <table id="fields-table">
+    <tr>
+      <th>Название</th>
+      <th>Тип</th>
+      <th>Может быть пустым</th>
+    </tr>
+    <tr>
+      <td><input type="text" name="field_name_1" pattern="[a-zA-Z].*" required></td>
+      <td>
+        <select name="field_type_1">
+          <option value="INT">Int</option>
+          <option value="VARCHAR(255)">Varchar</option>
+          <option value="DATE">Date</option>
+        </select>
+      </td>
+      <td>
+        <select name="field_null_1">
+          <option value="">Null</option>
+          <option value="NOT NULL">NotNull</option>
+        </select>
+      </td>
+    </tr>
+  </table>
+  <button type="button" onclick="addRow()">Добавить поле</button>
+  <input type="submit" name="" value="Создать">
+</form>
+<script>
+  function addRow() {
+    var table = document.getElementById("fields-table");
+    var newRowNumber = table.rows.length;
+    var row = table.insertRow(-1);
+    var nameCell = row.insertCell(0);
+    var typeCell = row.insertCell(1);
+    var nullCell = row.insertCell(2);
+    // var defaultCell = row.insertCell(3);
+    var deleteCell = row.insertCell(3);
+
+    var nameInput = document.createElement("input");
+    nameInput.pattern = "[a-zA-Z].*"
+    nameInput.required = 'True'
+    nameInput.type = "text";
+    nameInput.name = "field_name_" + newRowNumber;
+    var typeSelect = document.createElement("select");
+    typeSelect.name = "field_type_" + newRowNumber;
+    var intOption = document.createElement("option");
+    intOption.value = "INT";
+    intOption.text = "Int";
+    var varcharOption = document.createElement("option");
+    varcharOption.value = "VARCHAR(255)";
+    varcharOption.text = "Varchar";
+    var dateOption = document.createElement("option");
+    dateOption.value = "DATE";
+    dateOption.text = "Date";
+    typeSelect.add(intOption);
+    typeSelect.add(varcharOption);
+    typeSelect.add(dateOption);
+    var nullSelect = document.createElement("select");
+    nullSelect.name = "field_null_" + newRowNumber;
+    var nullOption = document.createElement("option");
+    nullOption.value = "";
+    nullOption.text = "Null";
+    var notNullOption = document.createElement("option");
+    notNullOption.value = "NOT NULL";
+    notNullOption.text = "NotNull";
+    nullSelect.add(nullOption);
+    nullSelect.add(notNullOption);
+
+    var deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.textContent = "Удалить";
+    deleteButton.onclick = function () {deleteRow(this);};
+
+    nameCell.appendChild(nameInput);
+    typeCell.appendChild(typeSelect);
+    nullCell.appendChild(nullSelect);
+    deleteCell.appendChild(deleteButton);
+  }
+  function deleteRow(button) {
+    var row = button.parentNode.parentNode; // get the parent row of the button
+    var table = row.parentNode; // get the parent table of the row
+    table.deleteRow(row.rowIndex); // delete the row from the table
+  }
+</script>
+{% endblock %}
+

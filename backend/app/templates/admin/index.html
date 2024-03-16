@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Список таблиц{% endblock %}</h1>
+<a href="{{url_for('admin.create')}}">Создать новую</a>
+{% endblock %}
+
+{% block content %}
+<table>
+    <tr>
+        <th rowspan="1">Название таблицы</th>
+
+        <th rowspan="1">Количество записей</th>
+    </tr>
+
+    {% for table in tables %}
+    <tr>
+        <td>
+            {{table['name']}}
+        </td>
+
+        <td>
+            {{table['count']}}
+        </td>
+        <td>
+            <a class="action" href="{{ url_for('admin.view', name=table['name']) }}">Просмотреть</a>
+        </td>
+        <td>
+            <a class="action" href="{{ url_for('admin.update', name=table['name']) }}">Данные</a>
+        </td>
+<!--        <td>-->
+<!--            <a class="action" href="{{ url_for('admin.alter', name=table['name']) }}">Настройка</a>-->
+<!--        </td>-->
+        <td>
+            <a class="action" href="{{ url_for('admin.delete', name=table['name']) }}">Удалить</a>
+        </td>
+    </tr>
+    {% if not loop.last %}
+
+    {% endif %}
+    {% endfor %}
+</table>
+<h1>Процедуры и Функции</h1>
+<form method="post">
+    <select name="pf_name" id="pf_name">
+        {% for p in procedures %}
+          <option value="{{p['Name']}}">{{p['Name']}}</option>
+        {% endfor %}
+        {% for f in functions %}
+          <option value="{{f['Name']}}">{{f['Name']}}</option>
+        {% endfor %}
+    </select>
+    <input type="text" id="input" name="input" pattern="^\d+(,\d+)*$">
+    <input type="submit" value="Использовать">
+</form>
+<table>
+    {% if out[0] %}
+
+        <tr>
+        {% for key in out[0].keys() %}
+            <th>{{key}}</th>
+        {% endfor %}
+        </tr>
+        {% for o in out %}
+            <tr>
+                {% for item in o.values() %}
+                <th>
+                    {{item}}
+                </th>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    {% endif %}
+</table>
+{% endblock %}
+

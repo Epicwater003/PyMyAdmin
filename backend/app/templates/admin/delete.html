@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Удаление таблицы {{table_name}}{% endblock %}</h1>
+
+{% endblock %}
+
+{% block content %}
+<form method="post">
+  <label>Вы действительно хотите удалить таблицу {{table_name}}?</label>
+  <input type="submit" value="Подтвердить">
+</form>
+{% endblock %}
+

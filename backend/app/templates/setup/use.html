@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Доступные соединения{% endblock %}</h1>
+  {% if g.user %}
+  <a class="action" href="{{ url_for('setup.new') }}">Добавить новое соединение</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+    <table>
+      <tr>
+        <!-- {% for key in dbs[0].keys() %}
+          <th> {{ key }}</th>
+        {% endfor %} -->
+        <th>№</th>
+        <th>База данных</th>
+        <th>Пользователь</th>
+        <th>Хост</th>
+        <th>Порт</th>
+      </tr>
+    
+      {% for db in dbs %}
+      <tr>
+        <td>{{db['id']}}</td>
+        <td>{{db['dbname']}}</td>
+        <td>{{db['username']}}</td>
+        <td>{{db['host']}}</td>
+        <td>{{db['port']}}</td>
+        <td>
+          <form method="post">
+<!--            <label for="password">Введите пароль</label>-->
+<!--            <input type="password" name="password" id="password">-->
+            <button type="submit" name="submit_button" value="{{db['id']}}">Подключиться</button>
+          </form>
+        </td>
+        <td>
+          <form method="post">
+            <button type="submit" name="remove_button" value="{{db['id']}}">Удалить</button>
+          </form>
+        </td>
+      </tr>
+      
+      {% endfor %}
+    </table>
+{% endblock %}
+

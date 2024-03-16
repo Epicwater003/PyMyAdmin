@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Просмотр таблицы {{table_name}}{% endblock %}</h1>
+
+{% endblock %}
+
+{% block content %}
+<table>
+  <caption>Описание</caption>
+  <tr>
+    <th>Название</th>
+    <th>Тип</th>
+    <th>Ключ</th>
+    <th>Дополнительно</th>
+  </tr>
+  {% for desc in description %}
+  <tr>
+    <td>{{desc['Field']}}</td>
+    <td>{{desc['Type']}}</td>
+    <td>{{desc['Key']}}</td>
+    <td>{{desc['Extra']}}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<table>
+  <caption>Записи</caption>
+  <tr>
+    {% for key in keys %}
+    <th>
+      {{key}}
+    </th>
+    {% endfor %}
+  </tr>
+  {% for row in table %}
+  <tr>
+    {% for item in row.values() %}
+    <td>
+      {{item}}
+    </td>
+    {% endfor %}
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
+

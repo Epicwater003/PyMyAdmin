@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Новое соединение{% endblock %}</h1>
+  {% if g.user %}
+
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="username">Пользователь</label>
+    <input name="username" id="username" required>
+    <label for="password">Пароль</label>
+    <input type="password" name="password" id="password" required>
+    <label for="dbname">Название базы данных</label>
+    <input name="dbname" id="dbname" required>
+    <label for="host">Хост</label>
+    <input name="host" id="host" value="127.0.0.1" required>
+    <label for="port">Порт</label>
+    <input name="port" id="port" value="3306" required>
+    <!-- <label for="save">Запомнить?</label>
+    <input type="checkbox" name="save" id="save"> -->
+    <input type="submit" value="Добавить">
+  </form>
+{% endblock %}
+

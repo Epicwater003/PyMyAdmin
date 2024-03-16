@@ -1,0 +1,38 @@
+<!doctype html>
+<head>
+  <title>{% block title %}{% endblock %} - PyMyAdmin</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <nav>
+    <a href="{{url_for('index')}}"><h1>PyMyAdmin</h1></a>
+    <ul>
+
+    </ul>
+    <ul>
+      {% if g.user %}
+        {% if g.db_connection_info %}
+          <li><span>{{ g.db_connection_info['dbname'] }}</span>
+          <li><span>{{ g.db_connection_info['username'] }}</span>
+          <li><a href="{{ url_for('setup.close') }}">Отключиться</a>
+        {% else %}
+          <li><a class="action" href="{{ url_for('setup.use') }}">Настроить соединение</a>
+        {% endif %}
+        <li><span>{{ g.user['username'] }}</span>
+        <li><a href="{{ url_for('auth.logout') }}">Выйти</a>
+      {% else %}
+        <li><a href="{{ url_for('auth.register') }}">Регистрация</a>
+        <li><a href="{{ url_for('auth.login') }}">Вход</a>
+      {% endif %}
+    </ul>
+  </nav>
+  <section class="content">
+    <header>
+      {% block header %}{% endblock %}
+    </header>
+    {% for message in get_flashed_messages() %}
+      <div class="flash">{{ message }}</div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+  </section>
+</body>
